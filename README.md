@@ -4,6 +4,12 @@
 
 Built for the **Nium Staff Product Manager – Digital Assets** assignment.
 
+**Repository:** https://github.com/vigneshpalani380/nium-stablecoin-conversion-prototype · **Submission tag:** [`v1.0-submission`](https://github.com/vigneshpalani380/nium-stablecoin-conversion-prototype/tree/v1.0-submission)
+
+```sh
+git clone https://github.com/vigneshpalani380/nium-stablecoin-conversion-prototype.git
+```
+
 The prototype shows how a business customer, such as a marketplace treasury team, can convert between fiat and stablecoin balances while keeping balances accurate, processing transactions safely, and showing a clear status at every step. That includes the cases where something goes wrong.
 
 > **Synthetic-data prototype.** It does not move real funds, and it does not connect to any live blockchain, custody, banking, trading or email service. All exchange rates are deterministic and labelled *Simulated*.
