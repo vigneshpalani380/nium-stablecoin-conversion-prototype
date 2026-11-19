@@ -1,0 +1,97 @@
+{
+  "notification_id": "NTF-D2D0B20E",
+  "conversion_id": "txn-7eb2def998054ac9",
+  "review_case_id": "RVW-FEA0B4AE",
+  "event": "CONVERSION_REVIEW_REQUIRED",
+  "channel": "EMAIL",
+  "recipient_group": "OPERATIONS",
+  "priority": "HIGH",
+  "subject": "Action Required \u2013 Conversion Outcome Unresolved",
+  "status": "QUEUED",
+  "simulated": true,
+  "created_at": "2026-11-19T10:23:40.999Z",
+  "body": "[SIMULATED EMAIL \u2014 not sent]\nTo: Nium Operations <operations@nium.example> (group: OPERATIONS)\nSubject: Action Required \u2013 Conversion Outcome Unresolved\nPriority: HIGH\n\nA. CASE\n  Review case:      RVW-FEA0B4AE\n  Customer:         cust-demo-marketplace  (accounts acct-usd \u2192 acct-usdc-sol)\n  Conversion ID:    txn-7eb2def998054ac9\n  Idempotency key:  e2e-fa7255571705463290cd4ad215e5177a\n  Review triggered: 2026-11-19T10:23:40.999Z\n\nB. TRANSACTION\n  Source:           USD 10000.00\n  Destination:      USDC-Solana 9950.000000 (expected)\n  Rate:             1 USD = 1.0000 USDC (SIMULATED)\n  Fee:              50.00 USD (0.005)\n  Created:          2026-11-19T10:23:40.977Z\n  Last known state: RESERVED \u2014 settlement attempted, outcome unknown\n\nC. FINANCIAL POSITION (Last known position after reservation (settlement outcome unconfirmed))\n  Source available:        15000.00\n  Source reserved:         10000.00\n  Destination available:   5000.000000\n  Destination pending:     9950.000000\n  After settlement:        Unknown \u2014 this is what the reviewer must establish.\n\nD. EVIDENCE\n  Settlement attempted:    2026-11-19T10:23:40.984Z\n  Database error:          Simulated: database connection lost during settlement COMMIT; no commit acknowledgement received\n  Conversion record found: UNKNOWN (lookup failed)\n  Source debit found:      UNKNOWN (lookup failed)\n  Destination credit found: UNKNOWN (lookup failed)\n  Idempotency lookup:      FAILED after 3 attempts: Simulated: connection to settlement records unavailable during recovery lookup\n  Recovery attempts:\n    #1 2026-11-19T10:23:40.992Z \u2192 LOOKUP_FAILED (Simulated: connection to settlement records unavailable during recovery lookup)\n    #2 2026-11-19T10:23:40.995Z \u2192 LOOKUP_FAILED (Simulated: connection to settlement records unavailable during recovery lookup)\n    #3 2026-11-19T10:23:40.997Z \u2192 LOOKUP_FAILED (Simulated: connection to settlement records unavailable during recovery lookup)\n  Last system response:    No commit acknowledgement received from the database.\n  Why automation stopped:  All 3 automated recovery lookups failed; the settlement records could not be read, so neither a committed nor a rolled-back settlement can be established.\n\nE. WHAT HAPPENED\n  The conversion request was submitted and USD 10000.00 was reserved. The application lost its database connection during the settlement commit and did not receive confirmation. Automated recovery using the original conversion ID and idempotency key could not establish whether settlement committed. The funds remain reserved. No further conversion or automatic reservation release will be attempted.\n\nF. REQUIRED ACTIONS\n  1. Inspect the authoritative database transaction and account records (GET /internal/v1/review-cases/{case_id}/inspection).\n  2. Establish whether the source debit, destination credit and completed conversion record committed atomically.\n  3. If settlement committed, confirm the completed outcome (action CONFIRM_COMMITTED).\n  4. If settlement did not commit, establish that it was rolled back and authorise the one-time reservation release (action CONFIRM_NOT_COMMITTED).\n  5. If evidence remains inconclusive, escalate to the engineering/data operations owner and keep the transaction unresolved (action ESCALATE).\n  Never initiate a new conversion, generate a new idempotency key, or release funds based solely on the original timeout.",
+  "payload": {
+    "simulated": true,
+    "delivery_note": "SIMULATED EMAIL \u2014 stored and logged only; no email was sent.",
+    "header": {
+      "subject": "Action Required \u2013 Conversion Outcome Unresolved",
+      "priority": "HIGH",
+      "review_case_id": "RVW-FEA0B4AE",
+      "customer_id": "cust-demo-marketplace",
+      "source_account_id": "acct-usd",
+      "destination_account_id": "acct-usdc-sol",
+      "conversion_id": "txn-7eb2def998054ac9",
+      "idempotency_key": "e2e-fa7255571705463290cd4ad215e5177a",
+      "review_triggered_at": "2026-11-19T10:23:40.999Z"
+    },
+    "transaction": {
+      "source": "USD 10000.00",
+      "destination_expected": "USDC-Solana 9950.000000",
+      "conversion_rate": "1 USD = 1.0000 USDC (SIMULATED)",
+      "conversion_fee": "50.00 USD (0.005)",
+      "quote_id": "q-dd6541bb4b1545be",
+      "original_transaction_timestamp": "2026-11-19T10:23:40.977Z",
+      "last_known_status": "RESERVED \u2014 settlement attempted, outcome unknown"
+    },
+    "financial_position": {
+      "basis": "Last known position after reservation (settlement outcome unconfirmed)",
+      "source_available": "15000.00",
+      "source_reserved": "10000.00",
+      "destination_available": "5000.000000",
+      "destination_pending": "9950.000000",
+      "before_reservation": {
+        "source": {
+          "available": "25000.00",
+          "reserved": "0.00",
+          "pending": "0.00"
+        },
+        "destination": {
+          "available": "5000.000000",
+          "reserved": "0.000000",
+          "pending": "0.000000"
+        }
+      },
+      "after_settlement": "Unknown \u2014 this is what the reviewer must establish."
+    },
+    "evidence": {
+      "settlement_attempted_at": "2026-11-19T10:23:40.984Z",
+      "database_error": "Simulated: database connection lost during settlement COMMIT; no commit acknowledgement received",
+      "conversion_record_found": "UNKNOWN (lookup failed)",
+      "source_debit_found": "UNKNOWN (lookup failed)",
+      "destination_credit_found": "UNKNOWN (lookup failed)",
+      "idempotency_lookup_result": "FAILED after 3 attempts: Simulated: connection to settlement records unavailable during recovery lookup",
+      "automated_recovery_attempts": [
+        {
+          "attempt": 1,
+          "at": "2026-11-19T10:23:40.992Z",
+          "result": "LOOKUP_FAILED",
+          "error": "Simulated: connection to settlement records unavailable during recovery lookup"
+        },
+        {
+          "attempt": 2,
+          "at": "2026-11-19T10:23:40.995Z",
+          "result": "LOOKUP_FAILED",
+          "error": "Simulated: connection to settlement records unavailable during recovery lookup"
+        },
+        {
+          "attempt": 3,
+          "at": "2026-11-19T10:23:40.997Z",
+          "result": "LOOKUP_FAILED",
+          "error": "Simulated: connection to settlement records unavailable during recovery lookup"
+        }
+      ],
+      "last_known_system_response": "No commit acknowledgement received from the database.",
+      "why_automation_stopped": "All 3 automated recovery lookups failed; the settlement records could not be read, so neither a committed nor a rolled-back settlement can be established."
+    },
+    "explanation": "The conversion request was submitted and USD 10000.00 was reserved. The application lost its database connection during the settlement commit and did not receive confirmation. Automated recovery using the original conversion ID and idempotency key could not establish whether settlement committed. The funds remain reserved. No further conversion or automatic reservation release will be attempted.",
+    "required_reviewer_actions": [
+      "Inspect the authoritative database transaction and account records (GET /internal/v1/review-cases/{case_id}/inspection).",
+      "Establish whether the source debit, destination credit and completed conversion record committed atomically.",
+      "If settlement committed, confirm the completed outcome (action CONFIRM_COMMITTED).",
+      "If settlement did not commit, establish that it was rolled back and authorise the one-time reservation release (action CONFIRM_NOT_COMMITTED).",
+      "If evidence remains inconclusive, escalate to the engineering/data operations owner and keep the transaction unresolved (action ESCALATE)."
+    ],
+    "prohibited": "Never initiate a new conversion, generate a new idempotency key, or release funds based solely on the original timeout."
+  }
+}

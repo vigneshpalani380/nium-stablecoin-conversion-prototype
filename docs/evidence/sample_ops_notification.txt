@@ -1,0 +1,51 @@
+[SIMULATED EMAIL — not sent]
+To: Nium Operations <operations@nium.example> (group: OPERATIONS)
+Subject: Action Required – Conversion Outcome Unresolved
+Priority: HIGH
+
+A. CASE
+  Review case:      RVW-FEA0B4AE
+  Customer:         cust-demo-marketplace  (accounts acct-usd → acct-usdc-sol)
+  Conversion ID:    txn-7eb2def998054ac9
+  Idempotency key:  e2e-fa7255571705463290cd4ad215e5177a
+  Review triggered: 2026-11-19T10:23:40.999Z
+
+B. TRANSACTION
+  Source:           USD 10000.00
+  Destination:      USDC-Solana 9950.000000 (expected)
+  Rate:             1 USD = 1.0000 USDC (SIMULATED)
+  Fee:              50.00 USD (0.005)
+  Created:          2026-11-19T10:23:40.977Z
+  Last known state: RESERVED — settlement attempted, outcome unknown
+
+C. FINANCIAL POSITION (Last known position after reservation (settlement outcome unconfirmed))
+  Source available:        15000.00
+  Source reserved:         10000.00
+  Destination available:   5000.000000
+  Destination pending:     9950.000000
+  After settlement:        Unknown — this is what the reviewer must establish.
+
+D. EVIDENCE
+  Settlement attempted:    2026-11-19T10:23:40.984Z
+  Database error:          Simulated: database connection lost during settlement COMMIT; no commit acknowledgement received
+  Conversion record found: UNKNOWN (lookup failed)
+  Source debit found:      UNKNOWN (lookup failed)
+  Destination credit found: UNKNOWN (lookup failed)
+  Idempotency lookup:      FAILED after 3 attempts: Simulated: connection to settlement records unavailable during recovery lookup
+  Recovery attempts:
+    #1 2026-11-19T10:23:40.992Z → LOOKUP_FAILED (Simulated: connection to settlement records unavailable during recovery lookup)
+    #2 2026-11-19T10:23:40.995Z → LOOKUP_FAILED (Simulated: connection to settlement records unavailable during recovery lookup)
+    #3 2026-11-19T10:23:40.997Z → LOOKUP_FAILED (Simulated: connection to settlement records unavailable during recovery lookup)
+  Last system response:    No commit acknowledgement received from the database.
+  Why automation stopped:  All 3 automated recovery lookups failed; the settlement records could not be read, so neither a committed nor a rolled-back settlement can be established.
+
+E. WHAT HAPPENED
+  The conversion request was submitted and USD 10000.00 was reserved. The application lost its database connection during the settlement commit and did not receive confirmation. Automated recovery using the original conversion ID and idempotency key could not establish whether settlement committed. The funds remain reserved. No further conversion or automatic reservation release will be attempted.
+
+F. REQUIRED ACTIONS
+  1. Inspect the authoritative database transaction and account records (GET /internal/v1/review-cases/{case_id}/inspection).
+  2. Establish whether the source debit, destination credit and completed conversion record committed atomically.
+  3. If settlement committed, confirm the completed outcome (action CONFIRM_COMMITTED).
+  4. If settlement did not commit, establish that it was rolled back and authorise the one-time reservation release (action CONFIRM_NOT_COMMITTED).
+  5. If evidence remains inconclusive, escalate to the engineering/data operations owner and keep the transaction unresolved (action ESCALATE).
+  Never initiate a new conversion, generate a new idempotency key, or release funds based solely on the original timeout.

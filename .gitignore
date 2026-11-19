@@ -1,0 +1,41 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local SQLite database (created and seeded automatically on first start)
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# Node / frontend build output
+node_modules/
+frontend/dist/
+*.tsbuildinfo
+
+# Environment and secrets (never commit; see .env.example)
+.env
+.env.*
+!.env.example
+
+# Logs and temporary files
+*.log
+logs/
+tmp/
+*.tmp
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local AI-assistant settings
+.claude/settings.local.json

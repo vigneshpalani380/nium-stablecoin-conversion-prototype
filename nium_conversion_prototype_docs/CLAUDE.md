@@ -1,0 +1,2 @@
+# AI Coding Instructions
+Follow `AGENTS.md` and `08_BUILD_AND_AGENT_GUIDE.md`. Before editing, inspect repository and conventions; do not assume framework/files. Implement small changes within allowed files. Add tests for every financial rule. Keep pricing/pair config out of UI logic. Keep mock pricing behind adapter. Never use floats for money. Never retry uncertain conversion with a new idempotency key. After editing, run tests and report exact files, commands, results, deviations and limitations. Do not deploy.
